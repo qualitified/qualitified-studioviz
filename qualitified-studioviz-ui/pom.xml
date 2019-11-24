@@ -9,7 +9,7 @@
 
   <groupId>org.nuxeo.studioviz</groupId>
   <artifactId>qualitified-studioviz-ui</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <name>Qualitified StudioViz UI</name>
   <description>Qualitified StudioViz UI</description>
 </project>

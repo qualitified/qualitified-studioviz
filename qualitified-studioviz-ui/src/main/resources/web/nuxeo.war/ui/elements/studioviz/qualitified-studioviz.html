@@ -1,16 +1,41 @@
 <dom-module id="qualitified-studioviz" assetpath="qualitified-studioviz/">
     <template>
         <style>
-    .flex {
-      @apply --layout-flex;
-    }
+
     paper-listbox {
       @apply --layout-horizontal;
       --paper-listbox-background-color: transparent;
       padding: 0;
     }
+    .page {
+      @apply --layout-horizontal;
+    }
+
+    .main,
+    :host([opened]) .main {
+      padding: 0;
+      max-width: initial;
+      margin-right: 0;
+    }
+
+    .main {
+      @apply --layout-vertical;
+      @apply --layout-flex-2;
+      padding-right: 8px;
+      overflow: hidden;
+    }
+
+
+    .side {
+      padding: 0;
+      max-width: initial;
+      min-height: initial;
+      display: block;
+      margin-bottom: 16px;
+    }
   </style>
         <nuxeo-operation id="GenerateGraph" op="GenerateGraph" params=""></nuxeo-operation>
+        <nuxeo-operation id="GenerateContextualGraph" op="GenerateContextualGraph" params="[[params]]"></nuxeo-operation>
         <nuxeo-page>
             <div slot="header">
                 <span class="flex">Studio Configuration</span>
@@ -23,16 +48,27 @@
             </div>
             <div>
                 <iron-pages selected="[[selected]]" attr-for-selected="name" selected-attribute="visible">
-                    <nuxeo-card name="data-model">
+                    <div name="data-model" class="page">
+                        <div class="main">
+                            <paper-card>
+                                <img id="imgModel" src="{{imgModelUrl}}" />
+                            </paper-card>
+                        </div>
+                        <div class="side">
+                            <paper-card>
+                                <template is="dom-repeat" items="[[documentTypeList]]">
+                                    <div><paper-checkbox on-change="_generateContextualGraph" value="{{item}}">[[item]]</paper-checkbox></div>
+                                </template>
+                            </paper-card>
+                        </div>
+                    </div>
+                    <div name="business-rule">
                         <template is="dom-if" if="{{_isDefined(response)}}">
-                            <img id="imgModel" src="{{imgModelUrl}}" />
+                            <paper-card>
+                                <img id="imgBusinessRules" src="{{imgBusinessRulesUrl}}" />
+                                <paper-card>
                         </template>
-                    </nuxeo-card>
-                    <nuxeo-card name="business-rule">
-                        <template is="dom-if" if="{{_isDefined(response)}}">
-                            <img id="imgBusinessRules" src="{{imgBusinessRulesUrl}}" />
-                        </template>
-                    </nuxeo-card>
+                    </div>
                 </iron-pages>
             </div>
         </nuxeo-page>
@@ -57,24 +93,89 @@
           type: Object,
           notify: true
         },
-        selected: String
+        selected: String,
+        documentTypeList:{
+          type : Object,
+          value: {}
+        },
+        selectedDocumentTypeList: {
+          type:Array,
+          value: []
+        },
+        checked:{
+          type : Object,
+          value : {},
+          observer : '_checked'
+        }
       },
       ready: function () {
         this.selected="data-model";
         this.$.GenerateGraph.execute().then(function(response){
-          this.response = response;
+          if ((typeof response !== 'undefined') && (response !== '') && (response !== null)) {
+            this.documentTypeList = response.model.documentTypeList.replace("\"[","").replace("]\"","").split(",");
+          }
         }.bind(this));
       },
       _isDefined: function(response) {
         if ((typeof response !== 'undefined') && (response !== '') && (response !== null)) {
-          json = response;
-          this.imgModelUrl = json.model.img;
-          this.imgBusinessRulesUrl = json.businessRules.img;
+          //json = response;
+          //this.imgModelUrl = json.model.img;
+          //this.documentTypeList = json.model.documentTypeList.replace("\"[","").replace("]\"","").split(",");
+          //this.imgBusinessRulesUrl = json.businessRules.img;
           return true;
         } else {
           return false;
         }
+      },
+      _generateContextualGraph: function(e){
+        this.imgModelUrl = "/nuxeo/ui/images/blank.png";
+        if(e.target.checked) {
+          this.selectedDocumentTypeList.pushIfNotExist(e.target.value);
+        }else{
+          this.selectedDocumentTypeList.remove(e.target.value);
+        }
+        this.params = {
+                nodes: this.selectedDocumentTypeList.toString().replace(/ /g, ""),
+                graphType: "model"
+        };
+        this.$.GenerateContextualGraph.execute().then(function(response){
+          if ((typeof response !== 'undefined') && (response !== '') && (response !== null)) {
+            this.response = response;
+            json = response;
+            this.imgModelUrl = json.model.img+"?id="+Math.random().toString(8);
+            this.imgBusinessRulesUrl = json.businessRules.img;
+          }
+        }.bind(this));
+      },
+      _isChecked: function(index){
+        console.log(index + " " + this.checked[index]);
+        if(typeof this.checked[index] === 'undefined' || this.checked[index] === null || this.checked[index]){
+          this.checked[index] = false;
+        }else if(!this.checked[index]){
+          this.checked[index] = true;
+        }
+        return this.checked[index];
       }
     });
+
+    Array.prototype.remove = function() {
+      var what, a = arguments, L = a.length, ax;
+      while (L && this.length) {
+          what = a[--L];
+          while ((ax = this.indexOf(what)) !== -1) {
+              this.splice(ax, 1);
+          }
+      }
+      return this;
+    };
+
+    Array.prototype.pushIfNotExist = function (item){
+    if(this.indexOf(item) == -1) {
+    //if(jQuery.inArray(item, this) == -1) {
+        this.push(item);
+        return true;
+    }
+    return false;
+  }
 </script>
 </dom-module>

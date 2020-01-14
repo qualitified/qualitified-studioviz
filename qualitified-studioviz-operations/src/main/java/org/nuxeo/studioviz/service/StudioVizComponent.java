@@ -230,7 +230,9 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
     }
 
 	public JsonObject generateModelGraphFromXML(String studioJarPath, List<String> nodeList) throws JAXBException, CommandNotAvailable, IOException, TemplateException{
-		Component component = getComponent(studioJarPath);   
+
+		ArrayList<String> documentTypeList = new ArrayList<String>();
+    	Component component = getComponent(studioJarPath);
         String studioProjectName = Framework.getProperty("studio.artifact.id","NO-studio.artifact.id-IN-NUXEO.CONF");
         Template template = initializeFreemarker("inputModel.ftl");
         
@@ -257,7 +259,7 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 		for(Extension extension:extensions){
 			String point = extension.getPoint();
 		    switch (point){
-	    		case EXTENSIONPOINT_SCHEMAS :
+	    		/*case EXTENSIONPOINT_SCHEMAS :
 	    			try{
 	    				List<Schema> schemaList = extension.getSchema();
 	    				for(Schema schema : schemaList){
@@ -284,12 +286,19 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 	    			}catch(Exception e){
 	    				logger.error("Error when getting schemas", e);
 	    			}
-	    			break;
+	    			break;*/
 	    		case EXTENSIONPOINT_DOCTYPE :
 	    			try{
 	    				List<Doctype> docTypeList = extension.getDoctype();
 	    				for(Doctype docType : docTypeList){
 	    					String docTypeName = docType.getName();
+
+							//contextual graph
+							//skip this one if it's not in the list of docTypes to display
+							if(nodeList != null && !nodeList.contains(docTypeName)){
+								continue;
+							}
+
 	    					//DocType ending with _cv are created for content views
 	    					if(docTypeName != null && !docTypeName.endsWith("_cv") && !docTypeName.equals("null") && !docTypeName.endsWith("_pp")){
 	    						JsonObject docTypeJson = new JsonObject();
@@ -301,6 +310,10 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 	    						if(docType != null && docType.getExtends() != null && !docType.getExtends().equals("null")){
 	    							transitions.add("\""+docTypeName+"\"->\""+docType.getExtends()+"\"[label=\"inherits\"]");
 	    						}
+
+	    						if(!documentTypeList.contains(docTypeName)){
+	    							documentTypeList.add(docTypeName);
+								}
 	    						
 	    						List<Doctype.Schema> extraSchemas = docType.getSchema();
 	    						for(Doctype.Schema extraSchema: extraSchemas){
@@ -381,7 +394,9 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
     	if(nbFacets>0) data.put("facets", facets);
 
     	JsonObject json = buildGraphResultAsJson(template, data, "inputModel.dot","imgModel.png", "imgModel.cmapx");
-    	
+
+		Collections.sort(documentTypeList);
+		json.addProperty("documentTypeList", new Gson().toJson(documentTypeList.toString()));
 	    return json;
 	}
 	

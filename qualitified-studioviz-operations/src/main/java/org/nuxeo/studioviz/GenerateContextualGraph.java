@@ -91,7 +91,7 @@ public class GenerateContextualGraph {
     	String businessRules = new Gson().toJson(businessRulesJson);
         String mapView = new Gson().toJson(mapViewJson);
         String mapModel = new Gson().toJson(mapModelJson);
-		return new StringBlob("{\"model\":"+mapModel+", \"view\": "+mapView+", \"businessRules\": "+businessRules+"}"); 
+		return new StringBlob("{\"model\":"+mapModel+", \"view\": "+mapView+", \"businessRules\": "+businessRules+"}", "application/json");
     }    
 
 }

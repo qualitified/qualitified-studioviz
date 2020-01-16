@@ -1,0 +1,38 @@
+{
+  facets: [
+    {
+      id: "Asset", 
+      label: "Asset",
+      description: "Asset",
+      // since Nuxeo 5.5, a facet can hold schemas
+      schemas: ["dam_common", "ip_rights"],
+    },
+   {
+      id: "Picture", 
+      label: "Picture",
+      description: "Picture",
+      schemas: ["file", "picture", "image_metadata", "iptc"],
+    },
+   {
+      id: "HasStoryboard", 
+      label: "HasStoryboard",
+      description: "HasStoryboard",
+    },
+   {
+      id: "MultiviewPicture", 
+      label: "MultiviewPicture",
+      description: "MultiviewPicture",
+    },
+   {
+      id: "HasVideoPreview", 
+      label: "HasVideoPreview",
+      description: "HasVideoPreview",
+    },
+   {
+      id: "Video", 
+      label: "Video",
+      description: "Video",
+      schemas: ["file", "picture", "video"],
+    },
+  ]
+}

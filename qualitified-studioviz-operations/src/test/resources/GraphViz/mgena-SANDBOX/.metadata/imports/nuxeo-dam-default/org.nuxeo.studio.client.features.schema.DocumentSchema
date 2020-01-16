@@ -1,0 +1,18 @@
+{
+  schemas: {
+    dam_common: {
+      @prefix: "damc",
+      author: "string",
+      authoringDate: "date",
+    },
+    ip_rights: {
+      @prefix: "ipr",
+      licence: "string",
+      embargo_date: "date",
+      expiration_date: "date",
+      copyright_holder: "string",
+      media_type: "string",
+      geo_broadcast: "string"
+     },
+  }
+}

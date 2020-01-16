@@ -1,0 +1,8 @@
+<permission id="RDD-Permission" version="1.2">
+  <visibility>
+    <org.nuxeo.studio.client.features.permission.PermissionVisibility>
+      <type>Document</type>
+      <order>1000</order>
+    </org.nuxeo.studio.client.features.permission.PermissionVisibility>
+  </visibility>
+</permission>

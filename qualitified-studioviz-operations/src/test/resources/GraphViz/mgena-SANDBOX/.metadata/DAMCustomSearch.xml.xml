@@ -1,0 +1,19 @@
+<xml-extension id="DAMCustomSearch" version="1.2" source="nuxeo-dam-default#1.1.2">
+  <xml>&lt;extension target=&quot;org.nuxeo.ecm.platform.ui.web.ContentViewService&quot;
+    point=&quot;contentViews&quot;&gt;
+    &lt;contentView name=&quot;DAM-CustomSearch&quot;&gt;
+      &lt;flags&gt;
+        &lt;flag&gt;DAM&lt;/flag&gt;
+      &lt;/flags&gt;
+      &lt;resultLayouts&gt;
+        &lt;layout name=&quot;dam_box_listing_ajax&quot; title=&quot;label.dam.box.listing.title&quot;
+          translateTitle=&quot;true&quot; iconPath=&quot;/icons/document_listing_icon_2_columns_icon.png&quot;
+          showCSVExport=&quot;false&quot; showPDFExport=&quot;false&quot; showSyndicationLinks=&quot;false&quot; /&gt;
+        &lt;layout name=&quot;dam_listing_ajax&quot; title=&quot;label.dam.listing.title&quot;
+          translateTitle=&quot;true&quot; iconPath=&quot;/icons/document_listing_icon.png&quot;
+          showCSVExport=&quot;false&quot; showPDFExport=&quot;false&quot; showSyndicationLinks=&quot;false&quot; /&gt;
+      &lt;/resultLayouts&gt;    
+     &lt;/contentView&gt;
+&lt;/extension&gt;
+</xml>
+</xml-extension>

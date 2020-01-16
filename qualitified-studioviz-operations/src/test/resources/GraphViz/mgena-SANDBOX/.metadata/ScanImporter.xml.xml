@@ -1,0 +1,45 @@
+<xml-extension id="ScanImporter" version="1.2">
+  <xml>&lt;extension
+    target=&quot;org.nuxeo.ecm.platform.scheduler.core.service.SchedulerRegistryService&quot;
+    point=&quot;schedule&quot;&gt;
+    &lt;schedule id=&quot;scanImporter&quot;&gt;
+      &lt;username&gt;Administrator&lt;/username&gt;
+      &lt;password&gt;Administrator&lt;/password&gt;
+      &lt;eventId&gt;ScanIngestionStart&lt;/eventId&gt;
+      &lt;eventCategory&gt;default&lt;/eventCategory&gt;
+      &lt;cronExpression&gt;*/15 * * * * ?&lt;/cronExpression&gt;
+    &lt;/schedule&gt;
+&lt;/extension&gt;
+
+&lt;extension target=&quot;org.nuxeo.ecm.platform.scanimporter.service.ScannedFileMapperComponent&quot; point=&quot;config&quot;&gt;
+        &lt;!-- define here importer configuration --&gt;
+        &lt;importerConfig&gt;
+            &lt;!-- folder that holds the data to be imported --&gt;
+          &lt;sourcePath&gt;/home/nuxeo/importer/in&lt;/sourcePath&gt;
+            &lt;!-- folder where xml files will be moved when processed (files will be deleted if directory is not set or does not exist)--&gt;
+            &lt;processedPath&gt;/home/nuxeo/importer/out&lt;/processedPath&gt;
+            &lt;!-- number of threads used by the importer : keep it to 1 if using H2 or you will break H2&apos;s lucene index --&gt;
+            &lt;nbThreads&gt;1&lt;/nbThreads&gt;
+            &lt;!-- define how many documents are imported between 2 commits --&gt;
+            &lt;batchSize&gt;10&lt;/batchSize&gt;
+            &lt;targetPath&gt;/default-domain/Factures&lt;/targetPath&gt;
+          	&lt;createInitialFolder&gt;false&lt;/createInitialFolder&gt;
+        &lt;/importerConfig&gt;
+&lt;/extension&gt;
+  
+&lt;extension target=&quot;org.nuxeo.ecm.platform.importer.xml.parser.XMLImporterComponent&quot; point=&quot;documentMapping&quot;&gt;
+   		&lt;docConfig tagName=&quot;Invoice&quot;&gt;
+      			&lt;docType&gt;Facture&lt;/docType&gt;
+    	&lt;/docConfig&gt;
+&lt;/extension&gt;
+
+&lt;extension target=&quot;org.nuxeo.ecm.platform.importer.xml.parser.XMLImporterComponent&quot; point=&quot;attributeMapping&quot;&gt;
+  		&lt;attributeConfig tagName=&quot;InvoiceNumber&quot; docProperty=&quot;facture:numero&quot; xmlPath=&quot;text()&quot;/&gt;
+        &lt;attributeConfig tagName=&quot;StoreName&quot; docProperty=&quot;facture:magasin&quot; xmlPath=&quot;text()&quot;/&gt;
+    	&lt;attributeConfig tagName=&quot;TotalAmount&quot; docProperty=&quot;facture:total&quot; xmlPath=&quot;text()&quot;/&gt;
+  		&lt;attributeConfig tagName=&quot;InvoiceLine&quot; docProperty=&quot;facture:articles&quot;&gt;
+               	&lt;mapping documentProperty=&quot;reference&quot;&gt;REF/text()&lt;/mapping&gt;
+      			&lt;mapping documentProperty=&quot;libelle&quot;&gt;Label/text()&lt;/mapping&gt;
+    	&lt;/attributeConfig&gt;
+&lt;/extension&gt;</xml>
+</xml-extension>

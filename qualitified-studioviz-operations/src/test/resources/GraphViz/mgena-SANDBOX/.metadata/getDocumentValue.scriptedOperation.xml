@@ -1,0 +1,17 @@
+<scriptedOperation id="getDocumentValue" version="1.2">
+  <script>function run(input, params) {
+  Document.SetProperty(input, {
+	/*required:true - type: string*/
+	&apos;xpath&apos;: &apos;dc:description&apos;,
+	/*required:false - type: boolean*/
+	&apos;save&apos;: true,
+	/*required:false - type: serializable*/
+        &apos;value&apos;: input.getTitle()
+ 
+  });  
+}</script>
+  <description></description>
+  <inputType>document</inputType>
+  <outputType>void</outputType>
+  <category>javascript</category>
+</scriptedOperation>

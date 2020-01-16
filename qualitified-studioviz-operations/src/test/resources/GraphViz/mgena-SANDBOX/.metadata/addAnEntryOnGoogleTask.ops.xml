@@ -1,0 +1,27 @@
+<operation-chain id="addAnEntryOnGoogleTask" version="1.2">
+  <chain type="Seam">
+    <doc></doc>
+    <inputParams/>
+    <operations>
+      <operation id="Context.FetchDocument">
+        <params/>
+      </operation>
+      <operation id="GoogleTaskPublisher">
+        <params>
+          <param name="userEmailAddress" type="string">
+            <value>@{Fn.getEmail(CurrentUser.name)}</value>
+          </param>
+          <param name="title" type="string">
+            <value>Do the project validation ASAP</value>
+          </param>
+          <param name="notes" type="string">
+            <value>This is an important task</value>
+          </param>
+          <param name="dueDate" type="gregoriancalendar">
+            <value>@{CurrentDate.weeks(1).getCalendar()}</value>
+          </param>
+        </params>
+      </operation>
+    </operations>
+  </chain>
+</operation-chain>

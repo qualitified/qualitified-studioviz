@@ -198,6 +198,22 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
     	Blob cmapFileBlob = gvs.generate(blob, input, cmapx, "cmapx");
 	    JsonObject json = new JsonObject();
 	    byte[] bytesEncoded;
+
+
+	    //TODO Use TransientStore
+		/*
+		     String storeName = ((BulkStatus)((BulkService)Framework.getService(BulkService.class)).getStatus(commandId)).getAction();
+        Blob blob = this.getBlob(in.getDataAsString(), storeName);
+        TransientStore store = ((TransientStoreService)Framework.getService(TransientStoreService.class)).getStore("download");
+        store.putBlobs(commandId, Collections.singletonList(blob));
+        store.setCompleted(commandId, true);
+        BulkStatus delta = BulkStatus.deltaOf(commandId);
+        delta.setProcessed(documents);
+        String url = ((DownloadService)Framework.getService(DownloadService.class)).getDownloadUrl(commandId);
+        Map<String, Serializable> result = Collections.singletonMap("url", url);
+
+
+		 */
 	   
 		bytesEncoded = Base64.encodeBase64(imgFileBlob.getByteArray());	
 		
@@ -374,12 +390,37 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 	    							docTypesList.add(docType.getExtends());
 	    							nbDocTypes ++;
 	    						}
+	    						//Handle subtypes
+								Extension.Doctype.Subtypes subTypes = docType.getSubtypes();
+	    						if(subTypes != null) {
+									for (String subType : subTypes.getType()) {
+										if(!docTypesList.contains(subType) && subType!= null && !subType.equals("null")){
+											JsonObject subTypeJson = new JsonObject();
+											subTypeJson.addProperty("name", subType);
+											subTypeJson.addProperty("featureName", subType+".doc");
+											subTypeJson.addProperty("labelName", subType);
+											subTypeJson.addProperty("color", "#1CA5FC");
+											nodes.add(gson.toJson(subTypeJson));
+											docTypes += "->";
+											docTypes += "\""+subType+"\"";
+											docTypesList.add(subType);
+											if (!documentTypeList.contains(subType)) {
+												documentTypeList.add(subType);
+											}
+											nbDocTypes ++;
+										}
+										transitions.add("\"" + docType.getName() + "\"->\"" + subType + "\"[label=\"contains\"]");
+									}
+								}
 	    					}
 	    				}
 	    			}catch(Exception e){
 	    				logger.error("Error when getting document type", e);
 	    			}
 	    			break;
+				case EXTENSIONPOINT_TYPES :
+
+					break;
 	    	}
 	    }
 

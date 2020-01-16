@@ -1,0 +1,44 @@
+<users id="global" version="1.2">
+  <isDisabled>false</isDisabled>
+  <users>
+    <user>
+      <name>Administrator</name>
+      <password>Administrator</password>
+      <lastName></lastName>
+      <firstName></firstName>
+      <company></company>
+      <email>administrator@example.com</email>
+    </user>
+    <user>
+      <name>SecondUser</name>
+      <password>SecondUser</password>
+      <lastName>SecondUser</lastName>
+      <firstName>SecondUser</firstName>
+      <company>nuxeo</company>
+      <email>su@nuxeo.com</email>
+    </user>
+  </users>
+  <groups>
+    <group>
+      <name>members</name>
+      <description>Group of users with read access rights</description>
+      <users/>
+    </group>
+    <group>
+      <name>administrators</name>
+      <description>Group of users with adminstrative rights</description>
+      <users>
+        <string>Administrator</string>
+      </users>
+    </group>
+    <group>
+      <name>RDD</name>
+      <description></description>
+      <users>
+        <string>SecondUser</string>
+        <string>Administrator</string>
+      </users>
+    </group>
+  </groups>
+  <createPolicy>on_missing_columns</createPolicy>
+</users>

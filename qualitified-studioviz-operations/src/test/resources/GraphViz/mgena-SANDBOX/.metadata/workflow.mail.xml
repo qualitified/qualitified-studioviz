@@ -1,0 +1,83 @@
+<mail id="workflow" version="1.2" source="NuxeoDMDefaultConfiguration_nux#1.6.0">
+  <text>&lt;html&gt;
+  &lt;body&gt;
+    &lt;div style=&quot;margin:0; padding:0; background-color:#e9ecef;font-family:Arial,sans-serif;&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot;&gt;
+      &lt;center&gt;
+        &lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; align=&quot;center&quot; width=&quot;100%&quot; height=&quot;100%&quot; style=&quot;background-color:#e9ecef;border-collapse:collapse; font-family:Arial,sans-serif;margin:0; padding:0; min-height:100% ! important; width:100% ! important;border:none;&quot;&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;
+              &lt;td align=&quot;center&quot; valign=&quot;top&quot; style=&quot;border-collapse:collapse;margin:0;padding:20px;border-top:0;min-height:100%!important;width:100%!important&quot;&gt;
+                &lt;table cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;border-collapse:collapse;border:none;width:100%&quot;&gt;
+                  &lt;tbody&gt;
+                    &lt;tr&gt;
+                      &lt;td style=&quot;background-color:#f7f7f7;border-bottom:1px dashed #e9ecef;padding:8px 20px;&quot;&gt;
+                        &lt;p style=&quot;font-weight:bold;font-size:15px;margin:0;color:#000;&quot;&gt;
+                        ${Runtime.getProperty(&apos;org.nuxeo.ecm.product.name&apos;)}&lt;/p&gt;
+                      &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                      &lt;td style=&quot;background-color:#fff;padding:8px 20px;&quot;&gt;&lt;br/&gt;
+                        &lt;p style=&quot;line-height:180%;margin:0;font-size:13px;&quot;&gt;
+                      &lt;#if eventId == &quot;workflowNewProcessStarted&quot;&gt;
+                      A workflow was &lt;strong&gt;started&lt;/strong&gt; on
+                      &lt;#elseif eventId == &quot;workflowProcessEnded&quot;&gt;
+                      The workflow was &lt;strong&gt;ended&lt;/strong&gt;
+                      &lt;#elseif eventId == &quot;workflowAbandoned&quot;&gt;
+                      The workflow was &lt;strong&gt;abandoned&lt;strong&gt; for
+                      &lt;#elseif eventId == &quot;workflowProcessCanceled&quot;&gt;
+                      The workflow was &lt;strong&gt;canceled&lt;/strong&gt; for
+                      &lt;#elseif eventId == &quot;workflowTaskAssigned&quot;&gt;
+                      A task was &lt;strong&gt;assigned&lt;/strong&gt; for
+                      &lt;#elseif eventId == &quot;workflowTaskUnassigned&quot;&gt;
+                      A task was &lt;strong&gt;unassigned&lt;/strong&gt; for
+                      &lt;#elseif eventId == &quot;workflowTaskCompleted&quot;&gt;
+                      A task &lt;strong&gt;ended&lt;/strong&gt; for
+                      &lt;#elseif eventId == &quot;workflowTaskRemoved&quot;&gt;
+                      A task was &lt;strong&gt;removed&lt;/strong&gt; for
+                      &lt;#elseif eventId == &quot;workflowTaskSuspended&quot;&gt;
+                      A task was &lt;strong&gt;suspended&lt;/strong&gt; for
+                      &lt;#elseif eventId == &quot;workflowTaskRejected&quot;&gt;
+                      A task was &lt;strong&gt;rejected&lt;/strong&gt; for
+                       &lt;/#if&gt; ${htmlEscape(docTitle)}.&lt;/p&gt;&lt;br/&gt;
+                        &lt;table cellpadding=&quot;6&quot; cellspacing=&quot;0&quot; style=&quot;border:none;border-collapse:collapse;font-size:13px;&quot;&gt;
+                          &lt;tbody&gt;
+                            &lt;tr&gt;
+                              &lt;td style=&quot;border:1px solid #eee;color:#888;font-size:13px;white-space:nowrap;&quot;&gt;By&lt;/td&gt;
+                              &lt;td style=&quot;border:1px solid #eee;color:#000;font-size:13px;&quot;&gt;&lt;a href=&quot;${docUrl}&quot; style=&quot;color:#22aee8;text-decoration:underline;word-wrap:break-word !important;&quot;&gt;${htmlEscape(author)}&lt;/a&gt;
+                              &lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;tr&gt;
+                              &lt;td style=&quot;border:1px solid #eee;color:#888;font-size:13px;white-space:nowrap;&quot;&gt;Date&lt;/td&gt;
+                              &lt;td style=&quot;border:1px solid #eee;color:#000;font-size:13px;&quot;&gt;${htmlEscape(dateTime?datetime?string(&quot;dd/MM/yyyy - HH:mm&quot;))}
+                              &lt;/td&gt;
+                            &lt;/tr&gt;
+                            &lt;tr&gt;
+                              &lt;td style=&quot;border:1px solid #eee;color:#888;font-size:13px;&quot;&gt;Document identifier&lt;/td&gt;
+                              &lt;td style=&quot;border:1px solid #eee;color:#000;font-size:13px;&quot;&gt;${htmlEscape(docId)}&lt;/td&gt;
+                            &lt;/tr&gt;
+                          &lt;/tbody&gt;
+                        &lt;/table&gt;&lt;br/&gt;
+                        &lt;p style=&quot;margin:0;font-size:13px;&quot;&gt;
+                          &lt;a style=&quot;color:#22aee8;text-decoration:underline;word-wrap:break-word !important;&quot; href=&quot;${docUrl}&quot;&gt;&amp;#187; Consult the document ${htmlEscape(docTitle)}&lt;/a&gt;
+                        &lt;/p&gt;&lt;br/&gt;
+                     &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                      &lt;td style=&quot;background-color:#f7f7f7;border-top:1px dashed #e9ecef;text-align:center;padding:8px 20px;&quot;&gt;
+                        &lt;div style=&quot;font-size:12px;color:#bbb;&quot;&gt;
+                        You received this notification because you subscribed to ${notification.name?lower_case} on this document or on one of its parents.&lt;/div&gt;
+                      &lt;/td&gt;
+                    &lt;/tr&gt;
+                  &lt;/tbody&gt;
+                &lt;/table&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/center&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;html&gt;
+
+</text>
+</mail>

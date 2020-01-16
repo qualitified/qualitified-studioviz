@@ -1,0 +1,19 @@
+<action-extension id="HelloWorldButton" version="1.2">
+  <model>
+    <category>DOCUMENT_SUMMARY_CUSTOM_ACTIONS</category>
+    <label>Hello World (To modify: Studio&gt;Automation)</label>
+    <icon>/img/hello.png</icon>
+    <order>0</order>
+    <immediate>false</immediate>
+    <chain>javascript.getDocumentValue</chain>
+    <rules>
+      <rules>
+        <org.nuxeo.studio.client.modules.action.RuleModel>
+          <key>hasPermission</key>
+          <operator>==</operator>
+          <value>Write</value>
+        </org.nuxeo.studio.client.modules.action.RuleModel>
+      </rules>
+    </rules>
+  </model>
+</action-extension>

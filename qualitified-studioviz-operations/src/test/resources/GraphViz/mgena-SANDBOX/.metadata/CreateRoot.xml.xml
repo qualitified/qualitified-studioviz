@@ -1,0 +1,28 @@
+<xml-extension id="CreateRoot" version="1.2">
+  <xml>&lt;!--extension target=&quot;org.nuxeo.ecm.platform.actions.ActionService&quot; point=&quot;actions&quot;&gt;
+  &lt;action icon=&quot;/icons/action_add.gif&quot; id=&quot;newDomain&quot; label=&quot;command.create.domain&quot; type=&quot;fancybox&quot;&gt;
+        &lt;category&gt;SUBVIEW_UPPER_LIST&lt;/category&gt;
+         &lt;filter id=&quot;newDomain&quot;&gt;
+          &lt;rule grant=&quot;true&quot;&gt;
+            &lt;permission&gt;AddChildren&lt;/permission&gt;
+            &lt;type&gt;Root&lt;/type&gt;
+          &lt;/rule&gt;
+        &lt;/filter&gt;
+        &lt;properties&gt;
+           &lt;property name=&quot;include&quot;&gt;/select_document_type.xhtml&lt;/property&gt;
+        &lt;/properties&gt;
+  	&lt;/action&gt;
+&lt;/extension&gt;
+
+&lt;Initial version for newDomain Action
+	&lt;action icon=&quot;/icons/action_add.gif&quot; id=&quot;newDomain&quot; label=&quot;command.create.domain&quot; link=&quot;#{documentActions.createDocument(&apos;Domain&apos;)}&quot;&gt;
+        &lt;category&gt;SUBVIEW_UPPER_LIST&lt;/category&gt;
+        &lt;filter id=&quot;newDomain&quot;&gt;
+          &lt;rule grant=&quot;true&quot;&gt;
+            &lt;permission&gt;AddChildren&lt;/permission&gt;
+            &lt;type&gt;Root&lt;/type&gt;
+          &lt;/rule&gt;
+        &lt;/filter&gt;
+  	&lt;/action&gt;
+--&gt;</xml>
+</xml-extension>

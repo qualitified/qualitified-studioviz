@@ -1,0 +1,18 @@
+<xml-extension id="DAMThumbnailLayout" version="1.2" source="nuxeo-dam-default#1.1.2">
+  <xml>&lt;extension target=&quot;org.nuxeo.ecm.platform.forms.layout.WebLayoutManager&quot;
+   point=&quot;widgets&quot;&gt;
+  &lt;widget name=&quot;dam_listing_dam_common&quot; type=&quot;layout&quot;&gt;
+    &lt;labels&gt;
+      &lt;label mode=&quot;any&quot;&gt;&lt;/label&gt;
+    &lt;/labels&gt;
+    &lt;translated&gt;false&lt;/translated&gt;
+    &lt;fields&gt;
+      &lt;field&gt;data&lt;/field&gt;
+    &lt;/fields&gt;
+    &lt;properties widgetMode=&quot;any&quot;&gt;
+      &lt;property name=&quot;name&quot;&gt;DAMThumbnailLayout@view&lt;/property&gt;
+      &lt;property name=&quot;widgetsDisplay&quot;&gt;no_label&lt;/property&gt;
+    &lt;/properties&gt;
+  &lt;/widget&gt;
+&lt;/extension&gt;</xml>
+</xml-extension>

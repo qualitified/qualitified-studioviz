@@ -1,0 +1,34 @@
+<operation-chain id="wfEntryOnGoogleTask" version="1.2">
+  <chain type="Default">
+    <doc></doc>
+    <inputParams/>
+    <operations>
+      <operation id="Context.FetchDocument">
+        <params/>
+      </operation>
+      <operation id="GoogleTaskPublisher">
+        <params>
+          <param name="userEmailAddress" type="string">
+            <value>@{Fn.getEmail(CurrentUser.actingUser)}</value>
+          </param>
+          <param name="title" type="string">
+            <value>TODO : Nuxeo Workflow Task</value>
+          </param>
+          <param name="notes" type="string">
+            <value>http://localhost:8080/nuxeo/nxpath/default/@{Document.path}@view_documents?tabIds=%3ATAB_ROUTE_WORKFLOW</value>
+          </param>
+          <param name="dueDate" type="gregoriancalendar">
+            <value>@{CurrentDate.weeks(1).getCalendar()}</value>
+          </param>
+        </params>
+      </operation>
+      <operation id="Document.FollowLifecycleTransition">
+        <params>
+          <param name="value" type="string">
+            <value>approve</value>
+          </param>
+        </params>
+      </operation>
+    </operations>
+  </chain>
+</operation-chain>

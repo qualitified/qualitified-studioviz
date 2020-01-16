@@ -1,0 +1,11 @@
+<operation-chain id="getChangedAssets" version="1.2">
+  <chain type="Default">
+    <doc></doc>
+    <inputParams/>
+    <operations>
+      <operation id="GetChangedAssets">
+        <params/>
+      </operation>
+    </operations>
+  </chain>
+</operation-chain>

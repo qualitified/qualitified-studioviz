@@ -1,8 +1,0 @@
-<xml-extension id="DAMEnableNewSampleCustomPic" version="1.2" source="nuxeo-dam-default#1.1.2">
-  <xml>&lt;extension target=&quot;org.nuxeo.dam.DamService&quot;
-    point=&quot;allowedAssetTypes&quot;&gt;
-
-    &lt;allowedAssetType name=&quot;SampleCustomPicture&quot; /&gt;
-
-  &lt;/extension&gt;</xml>
-</xml-extension>

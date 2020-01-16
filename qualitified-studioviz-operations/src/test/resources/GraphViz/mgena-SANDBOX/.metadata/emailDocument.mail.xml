@@ -1,9 +1,0 @@
-<mail id="emailDocument" version="1.2" source="NuxeoDMDefaultConfiguration_nux#1.6.0">
-  <text>${content}
-
-&lt;p style=&quot;margin:0;&quot;&gt;
-&lt;a style=&quot;color:#22aee8;text-decoration:underline;word-wrap:break-word!important;&quot; href=&quot;${docUrl}&quot;&gt;&amp;#187; Consult the document ${htmlEscape(docTitle)}&lt;/a&gt;&lt;/p&gt;&lt;br/&gt;
-
-&lt;p style=&quot;line-height:180%;margin:0;&quot;&gt;This email was sent to you by &lt;strong&gt;${author} (${htmlEscape(principalAuthor.firstName)} ${htmlEscape(principalAuthor.lastName)})&lt;/strong&gt;.&lt;/p&gt;&lt;br/&gt;
-</text>
-</mail>

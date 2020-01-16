@@ -1,9 +1,0 @@
-<xml-extension id="CORS" version="1.2">
-  <xml>&lt;extension target=&quot;org.nuxeo.ecm.platform.web.common.requestcontroller.service.RequestControllerService&quot; point=&quot;corsConfig&quot;&gt;
- &lt;corsConfig name=&quot;fooly&quot; allowGenericHttpRequests=&quot;true&quot;
-   allowOrigin=&quot;*&quot;
-   allowSubdomains=&quot;true&quot;&gt;
-   &lt;pattern&gt;.*&lt;/pattern&gt;
- &lt;/corsConfig&gt;
-&lt;/extension&gt;</xml>
-</xml-extension>

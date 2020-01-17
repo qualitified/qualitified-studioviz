@@ -25,13 +25,20 @@
       overflow: hidden;
     }
 
-
     .side {
       padding: 0;
       max-width: initial;
       min-height: initial;
       display: block;
       margin-bottom: 16px;
+    }
+
+    .emptyResult {
+      opacity: .5;
+      display: block;
+      font-weight: 300;
+      padding: 1.5em .7em;
+      text-align: center;
     }
   </style>
         <nuxeo-operation id="GenerateGraph" op="GenerateGraph" params=""></nuxeo-operation>
@@ -51,7 +58,12 @@
                     <div name="data-model" class="page">
                         <div class="main">
                             <paper-card>
-                                <img id="imgModel" src="{{imgModelUrl}}" />
+                                <template is="dom-if" if="{{!hasSelection}}">
+                                    <div class="emptyResult">No document selected.</div>
+                                </template>
+                                <template is="dom-if" if="{{hasSelection}}">
+                                    <img id="imgModel" src="{{imgModelUrl}}" />
+                                </template>
                             </paper-card>
                         </div>
                         <div class="side">
@@ -63,11 +75,9 @@
                         </div>
                     </div>
                     <div name="business-rule">
-                        <template is="dom-if" if="{{_isDefined(response)}}">
-                            <paper-card>
-                                <img id="imgBusinessRules" src="{{imgBusinessRulesUrl}}" />
-                                <paper-card>
-                        </template>
+                        <paper-card>
+                            <img id="imgBusinessRules" src="{{imgBusinessRulesUrl}}" />
+                        </paper-card>
                     </div>
                 </iron-pages>
             </div>
@@ -106,6 +116,10 @@
           type : Object,
           value : {},
           observer : '_checked'
+        },
+        hasSelection:{
+          type : Boolean,
+          value : false
         }
       },
       ready: function () {
@@ -113,27 +127,17 @@
         this.$.GenerateGraph.execute().then(function(response){
           if ((typeof response !== 'undefined') && (response !== '') && (response !== null)) {
             this.documentTypeList = response.model.documentTypeList.replace("\"[","").replace("]\"","").split(",");
+            this.imgBusinessRulesUrl = response.businessRules.img;
           }
         }.bind(this));
       },
-      _isDefined: function(response) {
-        if ((typeof response !== 'undefined') && (response !== '') && (response !== null)) {
-          //json = response;
-          //this.imgModelUrl = json.model.img;
-          //this.documentTypeList = json.model.documentTypeList.replace("\"[","").replace("]\"","").split(",");
-          //this.imgBusinessRulesUrl = json.businessRules.img;
-          return true;
-        } else {
-          return false;
-        }
-      },
       _generateContextualGraph: function(e){
-        this.imgModelUrl = "/nuxeo/ui/images/blank.png";
         if(e.target.checked) {
           this.selectedDocumentTypeList.pushIfNotExist(e.target.value);
         }else{
           this.selectedDocumentTypeList.remove(e.target.value);
         }
+        this.hasSelection = this.selectedDocumentTypeList.length>0;
         this.params = {
                 nodes: this.selectedDocumentTypeList.toString().replace(/ /g, ""),
                 graphType: "model"
@@ -143,7 +147,6 @@
             this.response = response;
             json = response;
             this.imgModelUrl = json.model.img+"?id="+Math.random().toString(8);
-            this.imgBusinessRulesUrl = json.businessRules.img;
           }
         }.bind(this));
       },

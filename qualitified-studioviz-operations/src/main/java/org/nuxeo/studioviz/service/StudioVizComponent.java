@@ -199,20 +199,12 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 	    JsonObject json = new JsonObject();
 	    byte[] bytesEncoded;
 
-
 	    //TODO Use TransientStore
 		/*
-		     String storeName = ((BulkStatus)((BulkService)Framework.getService(BulkService.class)).getStatus(commandId)).getAction();
-        Blob blob = this.getBlob(in.getDataAsString(), storeName);
-        TransientStore store = ((TransientStoreService)Framework.getService(TransientStoreService.class)).getStore("download");
-        store.putBlobs(commandId, Collections.singletonList(blob));
-        store.setCompleted(commandId, true);
-        BulkStatus delta = BulkStatus.deltaOf(commandId);
-        delta.setProcessed(documents);
-        String url = ((DownloadService)Framework.getService(DownloadService.class)).getDownloadUrl(commandId);
-        Map<String, Serializable> result = Collections.singletonMap("url", url);
-
-
+        TransientStore store = ((TransientStoreService)Framework.getService(TransientStoreService.class)).getStore("default");
+        store.putBlobs("StudioViz.png", Collections.singletonList(imgFileBlob));
+        store.setCompleted("StudioViz.png", true);
+        String url = ((DownloadService)Framework.getService(DownloadService.class)).getDownloadUrl("StudioViz.png");
 		 */
 	   
 		bytesEncoded = Base64.encodeBase64(imgFileBlob.getByteArray());	

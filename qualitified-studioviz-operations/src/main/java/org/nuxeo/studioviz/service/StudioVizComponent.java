@@ -327,8 +327,9 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 	    						for(Doctype.Schema extraSchema: extraSchemas){
 	    							//Don't include common schemas for the sake of visibility
 	    							if(!COMMON_SCHEMAS.contains(extraSchema.getName())){
-	    								transitions.add("\""+docTypeName+"\"->\""+extraSchema.getName()+"_sh\"");
-	    								
+										if(!transitions.contains("\""+docTypeName+"\"->\""+extraSchema.getName()+"_sh\"")) {
+											transitions.add("\""+docTypeName+"\"->\""+extraSchema.getName()+"_sh\"");
+										}
 	    								if(!schemasList.contains(extraSchema.getName()+"_sh")){
 		    								JsonObject schemaJson = new JsonObject();
 		    								schemaJson.addProperty("name", extraSchema.getName()+"_sh");
@@ -401,7 +402,9 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 											}
 											nbDocTypes ++;
 										}
-										transitions.add("\"" + docType.getName() + "\"->\"" + subType + "\"[label=\"contains\"]");
+										if(!transitions.contains("\"" + docType.getName() + "\"->\"" + subType + "\"[label=\"contains\"]")) {
+											transitions.add("\"" + docType.getName() + "\"->\"" + subType + "\"[label=\"contains\"]");
+										}
 									}
 								}
 	    					}
@@ -426,7 +429,7 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
     	if(nbDocTypes>0) data.put("docTypes", docTypes);
     	if(nbFacets>0) data.put("facets", facets);
 
-    	JsonObject json = buildGraphResultAsJson(template, data, "inputModel.dot","imgModel.png", "imgModel.cmapx");
+    	JsonObject json = buildGraphResultAsJson(template, data, "inputModel.dot","imgModel"+Math.random()+".png", "imgModel.cmapx");
 
 		Collections.sort(documentTypeList);
 		json.addProperty("documentTypeList", new Gson().toJson(documentTypeList.toString()));

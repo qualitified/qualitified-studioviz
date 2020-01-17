@@ -146,7 +146,7 @@
           if ((typeof response !== 'undefined') && (response !== '') && (response !== null)) {
             this.response = response;
             json = response;
-            this.imgModelUrl = json.model.img+"?id="+Math.random().toString(8);
+            this.imgModelUrl = json.model.img;
           }
         }.bind(this));
       },

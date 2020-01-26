@@ -198,6 +198,14 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
     	Blob cmapFileBlob = gvs.generate(blob, input, cmapx, "cmapx");
 	    JsonObject json = new JsonObject();
 	    byte[] bytesEncoded;
+
+	    //TODO Use TransientStore
+		/*
+        TransientStore store = ((TransientStoreService)Framework.getService(TransientStoreService.class)).getStore("default");
+        store.putBlobs("StudioViz.png", Collections.singletonList(imgFileBlob));
+        store.setCompleted("StudioViz.png", true);
+        String url = ((DownloadService)Framework.getService(DownloadService.class)).getDownloadUrl("StudioViz.png");
+		 */
 	   
 		bytesEncoded = Base64.encodeBase64(imgFileBlob.getByteArray());	
 		
@@ -319,8 +327,9 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 	    						for(Doctype.Schema extraSchema: extraSchemas){
 	    							//Don't include common schemas for the sake of visibility
 	    							if(!COMMON_SCHEMAS.contains(extraSchema.getName())){
-	    								transitions.add("\""+docTypeName+"\"->\""+extraSchema.getName()+"_sh\"");
-	    								
+										if(!transitions.contains("\""+docTypeName+"\"->\""+extraSchema.getName()+"_sh\"")) {
+											transitions.add("\""+docTypeName+"\"->\""+extraSchema.getName()+"_sh\"");
+										}
 	    								if(!schemasList.contains(extraSchema.getName()+"_sh")){
 		    								JsonObject schemaJson = new JsonObject();
 		    								schemaJson.addProperty("name", extraSchema.getName()+"_sh");
@@ -374,12 +383,39 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
 	    							docTypesList.add(docType.getExtends());
 	    							nbDocTypes ++;
 	    						}
+	    						//Handle subtypes
+								Extension.Doctype.Subtypes subTypes = docType.getSubtypes();
+	    						if(subTypes != null) {
+									for (String subType : subTypes.getType()) {
+										if(!docTypesList.contains(subType) && subType!= null && !subType.equals("null")){
+											JsonObject subTypeJson = new JsonObject();
+											subTypeJson.addProperty("name", subType);
+											subTypeJson.addProperty("featureName", subType+".doc");
+											subTypeJson.addProperty("labelName", subType);
+											subTypeJson.addProperty("color", "#1CA5FC");
+											nodes.add(gson.toJson(subTypeJson));
+											docTypes += "->";
+											docTypes += "\""+subType+"\"";
+											docTypesList.add(subType);
+											if (!documentTypeList.contains(subType)) {
+												documentTypeList.add(subType);
+											}
+											nbDocTypes ++;
+										}
+										if(!transitions.contains("\"" + docType.getName() + "\"->\"" + subType + "\"[label=\"contains\"]")) {
+											transitions.add("\"" + docType.getName() + "\"->\"" + subType + "\"[label=\"contains\"]");
+										}
+									}
+								}
 	    					}
 	    				}
 	    			}catch(Exception e){
 	    				logger.error("Error when getting document type", e);
 	    			}
 	    			break;
+				case EXTENSIONPOINT_TYPES :
+
+					break;
 	    	}
 	    }
 
@@ -393,7 +429,7 @@ public class StudioVizComponent extends DefaultComponent implements StudioVizSer
     	if(nbDocTypes>0) data.put("docTypes", docTypes);
     	if(nbFacets>0) data.put("facets", facets);
 
-    	JsonObject json = buildGraphResultAsJson(template, data, "inputModel.dot","imgModel.png", "imgModel.cmapx");
+    	JsonObject json = buildGraphResultAsJson(template, data, "inputModel.dot","imgModel"+Math.random()+".png", "imgModel.cmapx");
 
 		Collections.sort(documentTypeList);
 		json.addProperty("documentTypeList", new Gson().toJson(documentTypeList.toString()));
